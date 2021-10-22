@@ -339,6 +339,37 @@ const setConversationDescription = async function(token, description) {
 	return response
 }
 
+/**
+ * Set the default permissions for participants in a conversation.
+ *
+ * @param {string} token conversation token
+ * @param {number} permission the type of permission to be granted. Valid values are
+ * any sums of 'DEFAULT', 'CUSTOM', 'CALL_START', 'CALL_JOIN', 'LOBBY_IGNORE',
+ * 'PUBLISH_AUDIO', 'PUBLISH_VIDEO', 'PUBLISH_SCREEN'.
+ */
+const setConversationPermissions = async (token, permission) => {
+	await axios.put(generateOcsUrl('apps/spreed/api/v4/room/{token}/permissions/default', { token }),
+		{
+			permission,
+		})
+}
+
+/**
+ * Set the default permissions for participants in a call. These will be reset
+ * to default once the call has ended.
+ *
+ * @param {string} token conversation token
+ * @param {number} permission the type of permission to be granted. Valid values are
+ * any sums of 'DEFAULT', 'CUSTOM', 'CALL_START', 'CALL_JOIN', 'LOBBY_IGNORE',
+ * 'PUBLISH_AUDIO', 'PUBLISH_VIDEO', 'PUBLISH_SCREEN'.
+ */
+const setCallPermissions = async (token, permission) => {
+	await axios.put(generateOcsUrl('apps/spreed/api/v4/room/{token}/permissions/call', { token }),
+		{
+			permission,
+		})
+}
+
 export {
 	fetchConversations,
 	fetchConversation,
@@ -362,4 +393,6 @@ export {
 	setConversationName,
 	setConversationDescription,
 	clearConversationHistory,
+	setConversationPermissions,
+	setCallPermissions,
 }
